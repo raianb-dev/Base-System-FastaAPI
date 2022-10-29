@@ -11,20 +11,13 @@ class ServiceOrdres(Base):
     __tablename__ = 'ServiceOrders'
     id = Column(String(255), primary_key=True, default=uuid.uuid4)
     number = Column(Integer, Sequence('OS', start=1, increment=1))
-    typeId = Column(Column(Integer, ForeignKey('TypeServiceOrders.id')))
-    typeserviceId = Column(Integer, ForeignKey('TypeService.id'))
+    typeId = Column(Integer, ForeignKey('TypeService.id'))
+    typeserviceId = Column(Integer, ForeignKey('TypeServiceOrders.id'))
     createdAt = Column(String(255), default=datetime.datetime.now())
-    equipammentId = Column(Integer, ForeignKey('Equipament.id'))
+    equipmmentId = Column(Integer, ForeignKey('Equipment.id'))
     levelGravitId = Column(Integer, ForeignKey('LevelGravit.id'))
     description = Column(String(255))
     priority = Column(String(255))
-    
-    # many to one
-    typeId = relationship('TypeServiceOrders')
-    typeserviceId = relationship('TypeService')
-    equipammentId = relationship('Equipamment')
-    LevelGravit = relationship('Level')
-    priority = relationship('Priority')
     
     def Get_byId(self):
         return{
@@ -33,7 +26,7 @@ class ServiceOrdres(Base):
             'typeId': self.typeId,
             'typeserviceId': self.typeserviceId,
             'createdAt': self.createdAt,
-            'equipammentId': self.equipammentId,
+            'equipammentId': self.equipmmentId,
             'levelGravitId': self.levelGravitId,
             'description': self.description,
             'priority': self.priority
@@ -58,11 +51,20 @@ class TypeService(Base):
     id = Column(Integer, primary_key= True)
     name = Column(String(255))
     
-class Equipamment(Base):
+class Equipmment(Base):
     __tablename__= 'Equipament'
     id = Column(Integer, primary_key=True)
     name = Column(String(255))
-    
+    def get(self):
+        return{
+            'id': self.id,
+            'name': self.name
+        }
+    def getbyId(self):
+        return{
+            'id': self.id,
+            'name': self.name
+        }
 class Level(Base):
     __tablename__= 'LevelGravit'
     id = Column(Integer, primary_key=True)

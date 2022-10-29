@@ -8,23 +8,23 @@ from views.accountSchemas import AccountSchemas
 
 def add_account(db: Session, account: AccountSchemas):
     uuidOne = str(uuid.uuid4())
-    try:
-        add_account = Account(
+    
+    add_account = Account(
             id = uuidOne,
             fullname = account.fullname,
             username = account.username,
             pwd = account.pwd
         )
-        db.add(add_account)
-        db.commit()
-        msg = {
+    db.add(add_account)
+    db.commit()
+    msg = {
             'id': add_account.id,
             'fullname': add_account.fullname
         }
-        return msg, 200
-    except:
-        msg = 'Account not add'
-        return msg, 400
+    return msg, 200
+
+'''msg = 'Account not add'
+        return msg, 400'''
     
 def get_account(db: Session, skip: int = 0, limit: int = 20):
     try:
@@ -37,7 +37,7 @@ def get_account(db: Session, skip: int = 0, limit: int = 20):
 
 def get_byid_account(db: Session, id: str):
     try:
-        query = db.query(Account).filter(Account.id == id)
+        query = db.query(Account).filter(Account.id == id).one()
         data = [Account.getById() for Account in query]
         
         if(data):

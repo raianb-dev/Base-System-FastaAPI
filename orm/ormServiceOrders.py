@@ -10,11 +10,10 @@ def add_Order(db: Session, ServiceOrders: OrdersSchemas):
    try:
        add_os = ServiceOrders(
            id = uuidOne,
-           number = ServiceOrders.number,
            typeId = ServiceOrders.typeId,
            typeserviceId = ServiceOrders.typeserviceId,
            createdAt = None,
-           equipammentId = ServiceOrders.equipammentId,
+           EquipmmentId = ServiceOrders.EquipmmentId,
            levelGravitId = ServiceOrders.levelGravitId,
            description = ServiceOrders.description,
            priority = ServiceOrders.priority
@@ -60,7 +59,7 @@ def update(db: Session, id: str, Order: OrdersSchemas):
         query.typeId = ServiceOrdres.typeId
         query.typeserviceId = ServiceOrdres.typeserviceId
         query.createAt = ServiceOrdres.createdAt
-        query.equipammentId = ServiceOrdres.equipammentId
+        query.EquipmmentId = ServiceOrdres.EquipmmentId
         query.levelGravitId = ServiceOrdres.levelGravitId
         query.description = ServiceOrdres.description
         query.priority = ServiceOrdres.priority
