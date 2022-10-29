@@ -1,4 +1,3 @@
-from email.policy import default
 from sqlalchemy import Column, Integer, String, Float
 import uuid
 
@@ -22,6 +21,7 @@ class Account(Base):
         return{
             'id':self.id,
             'fullname': self.fullname,
-            'username': self.username
+            'username': self.username,
+            'pwd': self.pwd
         }
         
