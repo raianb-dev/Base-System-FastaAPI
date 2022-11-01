@@ -14,26 +14,26 @@ class Tags(Enum):
 router = APIRouter()
 
 @router.post('/v1/api/serviceOrders/', response_model=OrdersSchemas, tags=[Tags.Order])
-async def post_order(Order: OrdersSchemas, db: Session = Depends(get_db), token: JWTAUTH = Security(ACCESS_SECURITY)):
+async def post_order(Order: OrdersSchemas, db: Session = Depends(get_db)):
     data, status = ormServiceOrders.add_Order(db, Order)
     return build_toJson(status=status, content=data)
 
 @router.get('/v1/api/serviceOrders/', response_model=OrdersSelectSchemas, tags=[Tags.Order])
-async def get_order(skip: int = 0, limit: int = 20, db: Session = Depends(get_db), token: JWTAUTH = Security(ACCESS_SECURITY)):
+async def get_order(skip: int = 0, limit: int = 20, db: Session = Depends(get_db)):
     data, status = ormServiceOrders.get_Order(db, skip, limit)
     return build_toJson(status=status, content=data)
 
 @router.get('/v1/api/serviceOrders/{id}',response_model=OrdersSchemas, tags=[Tags.Order])
-async def get_byid_order(id: str, db: Session = Depends(get_db), token: JWTAUTH = Security(ACCESS_SECURITY)):
+async def get_byid_order(id: str, db: Session = Depends(get_db)):
     data, status = ormServiceOrders.get_byid(db, id)
     return build_toJson(status=status, content=data)
 
 @router.put('/v1/api/serviceOrders/{id}', response_model=OrdersSchemas, tags=[Tags.Order])
-async def put_order(id: str, Order: OrdersSchemas, db: Session = Depends(get_db), token: JWTAUTH = Security(ACCESS_SECURITY)):
+async def put_order(id: str, Order: OrdersSchemas, db: Session = Depends(get_db)):
     data, status = ormServiceOrders.update(db, id, Order)
-    build_toJson(status=status, content=data)
+    return build_toJson(status=status, content=data)
     
 @router.delete('/v1/api/serviceOrder/{id}', response_model=OrdersSchemas, tags=[Tags.Order])
-async def delete_order(id: str, db: Session = Depends(get_db), token: JWTAUTH = Security(ACCESS_SECURITY)):
+async def delete_order(id: str, db: Session = Depends(get_db)):
     data, status = ormServiceOrders.delete_order(db, id)
-    build_toJson(status=status, content=data)
+    return build_toJson(status=status, content=data)

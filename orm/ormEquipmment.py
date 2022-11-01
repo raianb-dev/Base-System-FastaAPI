@@ -1,22 +1,24 @@
-from models.modelsServiceOrders import Equipmment
+import uuid
+from models.modelsServiceOrders import Equipmment, ServiceOrdres
 from views.equipmmentSchemas import equipmmentSchema
 
 from sqlalchemy.orm import Session
 
-def add_Equipmment(db: Session, Equipmment: equipmmentSchema):
-    try:
+def add_Equipmment(db: Session, equipmment: equipmmentSchema):
+
+        uuidOne = str(uuid.uuid4())
         add_Equipmment = Equipmment(
-            id = Equipmment.id,
-            name = Equipmment.name
+            id = uuidOne,
+            name = equipmment.name
         )
         db.add(add_Equipmment)
         db.commit()
         msg = {
             'id': add_Equipmment.id,
-            'name': add_Equipmment.number
+            'name': add_Equipmment.name
         }
         return msg, 200
-    except:
+
         msg = 'Equipmment not added'
         return msg, 400
     
@@ -29,24 +31,25 @@ def get_Equipmment(db: Session, skip: int = 0, limit: int = 20):
         msg = 'Equipmment not found or id invalid'
         return msg, 400
 
-def get_byid_Equipmment(db: Session, id: int):
+def get_byid_Equipmment(db: Session, id: str):
     try:
-        query = db.query(Equipmment).filter(Equipmment.id == id).one()
+        query = db.query(Equipmment).filter(Equipmment.id == id)
         data = [Equipmment.getbyId() for Equipmment in query]
         
         if(data):
-            return data, 200
-        else:
+            return data, None, 200
+        else: 
+            data = [None]
             msg = 'Equipmment not founf or id invalid'
-            return msg, 400
+            return data, msg, 400
     except:
         msg = 'Error'
         return msg, 403
     
-def update_Equipmment(db: Session, id: str, Equipmment: equipmmentSchema):
+def update_Equipmment(db: Session, id: str, equipmment: equipmmentSchema):
     query = db.query(Equipmment).filter(Equipmment.id == id).one()
     try:
-        query.name = Equipmment.name
+        query.name = equipmment.name
         db.merge(query)
         db.commit()
         msg = 'Updated equipmment success'

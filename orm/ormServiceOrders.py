@@ -1,22 +1,25 @@
+import json
+import random
 from sqlalchemy.orm import Session
 import uuid
 
-from models.modelsServiceOrders import ServiceOrdres
+from models.modelsServiceOrders import Equipmment, ServiceOrdres
 from views.ordersSchemas import OrdersSchemas
 
 
-def add_Order(db: Session, ServiceOrders: OrdersSchemas):
+def add_Order(db: Session, serviceOrders: OrdersSchemas):
    uuidOne = str(uuid.uuid4())
    try:
-       add_os = ServiceOrders(
+       uuidOne = str(uuid.uuid4())
+       add_os = ServiceOrdres(
            id = uuidOne,
-           typeId = ServiceOrders.typeId,
-           typeserviceId = ServiceOrders.typeserviceId,
-           createdAt = None,
-           EquipmmentId = ServiceOrders.EquipmmentId,
-           levelGravitId = ServiceOrders.levelGravitId,
-           description = ServiceOrders.description,
-           priority = ServiceOrders.priority
+           number = int(random.uniform(1000, 9999)),
+           typeid = serviceOrders.typeId,
+           typeserviceid = serviceOrders.typeserviceId,
+           equipmmentid = serviceOrders.equipammentId,
+           levelgravitid = serviceOrders.levelGravitId,
+           description = serviceOrders.description,
+           priority = serviceOrders.priority
        )
        db.add(add_os)
        db.commit()
@@ -39,37 +42,38 @@ def get_Order(db: Session, skip: int = 0, limit: int = 20):
         return msg, 400
     
 def get_byid(db: Session, id: str):
-    try:
-        query = db.query(ServiceOrdres).filter(ServiceOrdres.id == id)
-        data = [ServiceOrdres.Get_byId() for ServiceOrdres in query]
-        if(data):   
-            return data, 200 
-        else:
-            msg = 'OS not found or id invalid'
-            return msg, 400
-    except:
+
+    query = db.query(ServiceOrdres).filter(ServiceOrdres.id == id)
+    equipmment = dict(db.query(Equipmment.id ,Equipmment.name).select_from(ServiceOrdres).where(ServiceOrdres.equipmmentid == Equipmment.id))
+    e = equipmment[0]
+    print(e)
+    data = [ServiceOrdres.Get_byId(equipmment) for ServiceOrdres in query]
+    
+    if(data):  
+        return data, 200 
+    else:
+        msg = 'OS not found or id invalid'
+        return msg
         msg = 'Error'
         return msg, 403
     
 def update(db: Session, id: str, Order: OrdersSchemas):
-    query = db.query(ServiceOrdres).filter(ServiceOrdres.id == id).one()
-    try:
-        query.id = ServiceOrdres.id
-        query.number = ServiceOrdres.number
-        query.typeId = ServiceOrdres.typeId
-        query.typeserviceId = ServiceOrdres.typeserviceId
-        query.createAt = ServiceOrdres.createdAt
-        query.EquipmmentId = ServiceOrdres.EquipmmentId
-        query.levelGravitId = ServiceOrdres.levelGravitId
-        query.description = ServiceOrdres.description
-        query.priority = ServiceOrdres.priority
-        db.merge(query)
-        db.commit()
-        msg = 'updated order success'
-        return msg, 200
-    except:
-        msg = 'order not updated'
-        return msg, 400
+    query = db.query(ServiceOrdres).filter(ServiceOrdres.id == id)
+  
+    query.typeId = Order.typeId,
+    query.typeserviceId = Order.typeserviceId,
+    query.equipmment = Order.equipammentId,
+    query.levelGravitId = Order.levelGravitId,
+    query.description = Order.description,
+    query.priority = Order.priority
+        
+    db.merge(query)
+    db.commit()
+    msg = 'updated order success'
+    return msg, 200
+
+    msg = 'order not updated'
+    return msg, 400
     
 def delete_order(db: Session, id: str):
     try:

@@ -37,7 +37,7 @@ def get_account(db: Session, skip: int = 0, limit: int = 20):
 
 def get_byid_account(db: Session, id: str):
     try:
-        query = db.query(Account).filter(Account.id == id).one()
+        query = db.query(Account).filter(Account.id == id)
         data = [Account.getById() for Account in query]
         
         if(data):
@@ -50,7 +50,7 @@ def get_byid_account(db: Session, id: str):
         return msg, 403
 
 def update_account(db: Session, id: str, account: AccountSchemas):
-    query = db.query(Account).filter(Account.id == id).one()
+    query = db.query(Account).filter(Account.id == id)
     try:
         query.fullname = account.fullname
         query.username = account.username
@@ -64,7 +64,7 @@ def update_account(db: Session, id: str, account: AccountSchemas):
 
 def delete_account(db: Session, id: str):
     try:
-        query = db.query(Account).filter(Account.id == id).one()
+        query = db.query(Account).filter(Account.id == id)
         db.delete(query)
         db.commit()
         msg = 'Account deleted success'

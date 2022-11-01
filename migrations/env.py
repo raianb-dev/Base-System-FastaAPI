@@ -5,10 +5,10 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from dbconnection.connection import Base
+# Models
+
 from models.modelsAccount import *
-
-
+from models.modelsServiceOrders import *
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -23,6 +23,8 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+
+from dbconnection.connection import Base
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

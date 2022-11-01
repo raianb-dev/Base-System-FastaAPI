@@ -1,12 +1,12 @@
 from pydantic import BaseModel
 
 class OrdersSchemas(BaseModel):
-    typeId: str
-    typeserviceId: str
+    typeId: int
+    typeserviceId: int
     equipammentId: str
-    levelGravitId: str
+    levelGravitId: int
     description: str
-    priority: str
+    priority: int
     
 class OrdersSelectSchemas(BaseModel):
     number: str
