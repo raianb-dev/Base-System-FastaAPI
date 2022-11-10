@@ -9,6 +9,9 @@ from alembic import context
 
 from models.modelsAccount import *
 from models.modelsServiceOrders import *
+from models.modelsClient import *
+from models.modelsStatus import *
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

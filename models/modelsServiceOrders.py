@@ -1,12 +1,7 @@
-import json
-from unicodedata import name
-from sqlalchemy import Column, Integer, String, Float, Sequence, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, ForeignKey
 import uuid, datetime
-from sqlalchemy.orm import Session
 
-
-from dbconnection.connection import Base, engine, metadata
+from dbconnection.connection import Base
 
 
 class ServiceOrdres(Base):
@@ -22,15 +17,17 @@ class ServiceOrdres(Base):
     description = Column(String(255))
     priority = Column(Integer)
     
-    def Get_byId(self, equipmment):
+    def Get_byId(self, equipmmentId, equipmmentName):
         return{
             'id': self.id,
             'number': self.number,
             'typeId': self.typeid,
             'typeserviceId': self.typeserviceid,
             'createdAt': self.createdat,
-            'equipamment': equipmment,
-
+            'equipamment': {
+                'id': equipmmentId,
+                'name': equipmmentName
+                },
             'levelGravitId': self.levelgravitid,
             'description': self.description,
             'priority': self.priority

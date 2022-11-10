@@ -1,10 +1,7 @@
 from sqlalchemy.orm import Session
-import uuid
-
-
 from models.modelsAccount import Account
 from views.accountSchemas import AccountSchemas
-
+import uuid
 
 def add_account(db: Session, account: AccountSchemas):
     uuidOne = str(uuid.uuid4())

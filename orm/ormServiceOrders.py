@@ -13,7 +13,7 @@ def add_Order(db: Session, serviceOrders: OrdersSchemas):
        uuidOne = str(uuid.uuid4())
        add_os = ServiceOrdres(
            id = uuidOne,
-           number = int(random.uniform(1000, 9999)),
+           number = int(random.uniform(10000, 99999)),
            typeid = serviceOrders.typeId,
            typeserviceid = serviceOrders.typeserviceId,
            equipmmentid = serviceOrders.equipammentId,
@@ -42,20 +42,16 @@ def get_Order(db: Session, skip: int = 0, limit: int = 20):
         return msg, 400
     
 def get_byid(db: Session, id: str):
-
+    
     query = db.query(ServiceOrdres).filter(ServiceOrdres.id == id)
-    equipmment = dict(db.query(Equipmment.id ,Equipmment.name).select_from(ServiceOrdres).where(ServiceOrdres.equipmmentid == Equipmment.id))
-    e = equipmment[0]
-    print(e)
-    data = [ServiceOrdres.Get_byId(equipmment) for ServiceOrdres in query]
+    equipmmentId, equipmmentName = list(db.query(Equipmment.id, Equipmment.name).select_from(ServiceOrdres).where(ServiceOrdres.equipmmentid == Equipmment.id))
+    data = [ServiceOrdres.Get_byId(equipmmentId[0], equipmmentName[1]) for ServiceOrdres in query]
     
     if(data):  
         return data, 200 
     else:
         msg = 'OS not found or id invalid'
         return msg
-        msg = 'Error'
-        return msg, 403
     
 def update(db: Session, id: str, Order: OrdersSchemas):
     query = db.query(ServiceOrdres).filter(ServiceOrdres.id == id)

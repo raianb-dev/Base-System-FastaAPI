@@ -1,5 +1,5 @@
 import uuid
-from models.modelsServiceOrders import Equipmment, ServiceOrdres
+from models.modelsServiceOrders import Equipmment
 from views.equipmmentSchemas import equipmmentSchema
 
 from sqlalchemy.orm import Session
@@ -19,8 +19,6 @@ def add_Equipmment(db: Session, equipmment: equipmmentSchema):
         }
         return msg, 200
 
-        msg = 'Equipmment not added'
-        return msg, 400
     
 def get_Equipmment(db: Session, skip: int = 0, limit: int = 20):
     try:
