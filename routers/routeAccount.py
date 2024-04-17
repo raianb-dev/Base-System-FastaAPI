@@ -10,12 +10,13 @@ from dbconnection.connection import get_db
 from views.accountSchemas import AccountSchemas, LoginSchemas
 from orm import ormAccount, ormLogin
 
+# credentials: JWTAUTH = Security(ACCESS_SECURITY)
 
 router = APIRouter()
 
 
 class Tags(Enum):
-    account = "account"
+    account = "Gerenciamento de Usuário"
 
 
 @router.post('/v1/api/account', response_model= AccountSchemas, tags=[Tags.account])
@@ -25,13 +26,13 @@ async def post_account(Account: AccountSchemas, db: Session = Depends(get_db)):
 
 
 @router.get('/v1/api/account', response_model= AccountSchemas, tags=[Tags.account])
-async def get_account(skip: int = 0, limit: int = 20, db: Session = Depends(get_db), token: JWTAUTH = Security(ACCESS_SECURITY)):
+async def get_account(skip: int = 0, limit: int = 20, db: Session = Depends(get_db), ):
     data, status = ormAccount.get_account(db, skip, limit)
     return build_toJson(status=status, content=data)
 
 
 @router.get('/v1/api/account/{id}', response_model=AccountSchemas, tags=[Tags.account] )
-async def getby_id(id: str, db: Session = Depends(get_db), credentials: JWTAUTH = Security(ACCESS_SECURITY)):
+async def getby_id(id: str, db: Session = Depends(get_db), ):
     data, status = ormAccount.get_byid_account(db, id)
     return build_toJson(status=status, content=data)
 
@@ -40,7 +41,7 @@ async def getby_id(id: str, db: Session = Depends(get_db), credentials: JWTAUTH 
         response_model=AccountSchemas,
         tags=[Tags.account]
         )
-async def put_account(id: str, account: AccountSchemas, db: Session = Depends(get_db), credentials: JWTAUTH = Security(ACCESS_SECURITY)):
+async def put_account(id: str, account: AccountSchemas, db: Session = Depends(get_db), ):
     data, status = ormAccount.update_account(db, id, account)
     return build_toJson(status=status, content=data)
 
@@ -49,7 +50,7 @@ async def put_account(id: str, account: AccountSchemas, db: Session = Depends(ge
                 response_model=AccountSchemas,
                 tags=[Tags.account]
             )
-async def delete_account(id: str, db: Session = Depends(get_db), credentials: JWTAUTH = Security(ACCESS_SECURITY) ):
+async def delete_account(id: str, db: Session = Depends(get_db),  ):
     data, status = ormAccount.delete_account(db, id)
     return build_toJson(status=status, content=data)
 

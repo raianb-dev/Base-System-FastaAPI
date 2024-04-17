@@ -12,7 +12,7 @@ JWTAUTH = JwtAuthorizationCredentials
 SECRET_KEY = os.getenv('SECRET_KEY', 'asasasasasas')
 ACCESS_SECURITY = JwtAccessBearer(secret_key=SECRET_KEY, auto_error=True)
 JWT_ALGORITHM = os.getenv('JWT_ALGORITHM', 'HS512')
-ACCESS_TOKEN_EXPIRE_HOURS = 24
+ACCESS_TOKEN_EXPIRE_HOURS = 999
 
 def create_token_jwt() -> str:
     expire = datetime.utcnow() + timedelta(

@@ -27,8 +27,10 @@ def add_client(db: Session, client: clientSchemas):
     }
     return content, 200
 
-def get_client(db: Session, skip: int = 0, limit: int = 20):
+def get_client(db: Session, skip: int = 0, limit: int = 20, name: str = None):
     query = db.query(Client).offset(skip).limit(limit).all()
+    if(name):
+        query = db.query(Client).filter(Client.fullname.like(f'%{name}%'))
     data = [Client.get() for Client in query]
     return data, 200
 
@@ -56,7 +58,7 @@ def put_client(db: Session, client: clientSchemas, id: str):
     return msg, 200
     
 def delete_client(db: Session, id: str):
-    query = db.query(Client).filter(id == id).one()
+    query = db.query(Client).filter(Client.id == id).one()
     db.delete(query)
     db.commit()
     msg = 'deleted success'

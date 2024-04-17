@@ -47,21 +47,20 @@ def get_byid_account(db: Session, id: str):
         return msg, 403
 
 def update_account(db: Session, id: str, account: AccountSchemas):
-    query = db.query(Account).filter(Account.id == id)
-    try:
-        query.fullname = account.fullname
-        query.username = account.username
-        db.merge(query)
-        db.commit()
-        msg = 'Updated Account success'
-        return msg, 200
-    except:
-        msg = 'Account not updated'
-        return msg, 400
+    query = db.query(Account).filter(Account.id == id).one()
+
+    query.fullname = account.fullname
+    query.username = account.username
+    query.pwd = account.pwd
+    db.merge(query)
+    db.commit()
+    msg = 'Updated Account success'
+    return msg, 200
+
 
 def delete_account(db: Session, id: str):
     try:
-        query = db.query(Account).filter(Account.id == id)
+        query = db.query(Account).filter(Account.id == id).one()
         db.delete(query)
         db.commit()
         msg = 'Account deleted success'

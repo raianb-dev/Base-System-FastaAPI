@@ -15,7 +15,7 @@ def build_toJson(status=400, content=None, token=None, alert=None):
         data["alert"] = alert
         
     data["footer"] = "Api/v1 Version"
-    data["info"] = "App build with FastAPI"
+    data["info"] = "Software Dominio"
     data["author"] = "https://github.com/raianb-dev"    
     return Response(
         json.dumps(data),

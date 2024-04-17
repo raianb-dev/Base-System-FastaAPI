@@ -7,10 +7,10 @@ from alembic import context
 
 # Models
 
-from models.modelsAccount import *
-from models.modelsServiceOrders import *
-from models.modelsClient import *
-from models.modelsStatus import *
+from models.modelsAccount import Base as ModelsAccount
+from models.modelsClient import Base as ModelsClient
+from models.modelsNotification import Base as ModelsNotification
+
 
 
 # this is the Alembic Config object, which provides
@@ -26,6 +26,10 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+import sqlalchemy
+from dbconnection.connection import engine
+target_metadata = sqlalchemy.MetaData()
+target_metadata.reflect(bind=engine)
 
 from dbconnection.connection import Base
 target_metadata = Base.metadata

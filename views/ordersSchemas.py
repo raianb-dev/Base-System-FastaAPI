@@ -1,14 +1,20 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
+from typing import Optional
 
-class OrdersSchemas(BaseModel):
-    typeId: int
-    typeserviceId: int
-    equipammentId: str
-    levelGravitId: int
-    description: str
-    priority: int
+
     
-class OrdersSelectSchemas(BaseModel):
-    number: str
-    createdAt: str
+class orderSchemas(BaseModel):
+    
+    clientId: str
+    barcode : str
+    apto : str
+    block : str
+
+    
+class orderSchemas_put(BaseModel):
+    apto: str
+
+class ordersImage(BaseModel):
+    orderId: str
+    base64: str
     
