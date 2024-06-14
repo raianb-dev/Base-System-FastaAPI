@@ -8,7 +8,9 @@ from routers.routeProxy import router as routeProxyRouter
 app = FastAPI(
     title='Dominio',
     version='0.1',
-    description='Documentação Swagger'
+    description='Documentação Swagger',
+    debug=True,
+    docs_url='/'
 )
 
 app.include_router(routeAccountRouter)
