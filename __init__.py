@@ -10,6 +10,7 @@ app = FastAPI(
     version='0.1',
     description='Documentação Swagger',
     debug=True,
+    docs_url='/'
 )
 
 app.include_router(routeAccountRouter)
