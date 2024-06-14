@@ -10,7 +10,7 @@ import base64
 
 # URL e autorização para envio de e-mails
 url = 'https://api.mailersend.com/v1/email'
-authorization = {"Authorization": "Bearer mlsn.4dc2b21b4adaa8ce54a384e63877dbc9b0f2f1a9b6fa2eed2df02c0fc09ca126"}
+authorization = {"Authorization": "Bearer mlsn.cfdd8d02b36d2be9fd9e5056460958bafce6a78b916521435e8dae8179d4d407"}
 
 # Função para enviar e-mail e salvar notificação na base de dados
 def send_email(barcode: str, block: str, apto: str, clientId: str, image: str):
@@ -33,7 +33,7 @@ def send_email(barcode: str, block: str, apto: str, clientId: str, image: str):
         # Dados para o envio do e-mail
         data = {
             "from": {
-                "email": "info@trial-0p7kx4xqk7mg9yjr.mlsender.net",
+                "email": "info@trial-0p7kx4xq3m2g9yjr.mlsender.net",
                 "name": "Domínio"
             },
             "to": [

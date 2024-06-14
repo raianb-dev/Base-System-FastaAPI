@@ -16,7 +16,7 @@ async def add_order(db: Session, orders: orderSchemas):
             date_in = str(datetime.now()),
             apto = orders.apto,
             block = orders.block,
-            status = str("Received")
+            status = str("Recebido")
         )
         db.add(add)
         db.commit()
@@ -30,7 +30,7 @@ async def add_order(db: Session, orders: orderSchemas):
 async def get_orders(db: Session, clientId: str, skip: int = 0, limit: int = 20):
     print(clientId)
     query = db.query(Orders).filter(Orders.client_id == clientId).offset(skip).limit(limit).all()
-    data = [Orders.get() for Orders in query]
+    data = [Orders.get(db) for Orders in query]
     return data, 200
 
 async def get_byid_orders(db: Session, id: str):

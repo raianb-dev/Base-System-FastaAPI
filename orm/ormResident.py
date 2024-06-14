@@ -1,4 +1,4 @@
-from models.modelsClient import Resident, Client
+from models.modelsClient import Resident
 from sqlalchemy.orm import Session
 from views.residentSchemas import residentSchemas
 
@@ -10,6 +10,7 @@ def add_resident(db: Session, resident: residentSchemas):
             apto = resident.apto,
             block = resident.block,
             phone = resident.phone,
+            email = resident.email,
             client_id = resident.client_id
         )
         db.add(add)
@@ -22,7 +23,7 @@ def add_resident(db: Session, resident: residentSchemas):
 
 def put_resident(db: Session, resident: residentSchemas, id: str):
     try:
-        query = db.query(Resident).filter(id == id).one()
+        query = db.query(Resident).filter(Resident.id == id).one()
         query.document = resident.document
         query.fullname = resident.fullname
         query.apto = resident.apto

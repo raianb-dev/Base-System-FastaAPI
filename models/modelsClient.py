@@ -2,6 +2,7 @@ import datetime
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 import uuid
+from sqlalchemy.orm import Session
 
 from dbconnection.connection import Base
 
@@ -52,13 +53,21 @@ class Orders(Base):
 
     client = relationship("Client", back_populates="orders")
 
-    def get(self):
-        return {
-            'id': self.id,
-            'barcode': self.barcode,
-            'apto': self.apto,
-            'block': self.block,
-            'status': self.status
+    def get(self, db: Session):
+            resident_name = None
+            if self.apto and self.block:
+                # Use a sessão do banco de dados passada como argumento
+                resident = db.query(Resident).filter(Resident.apto == self.apto, Resident.block == self.block).first()
+                if resident:
+                    resident_name = resident.fullname
+            return {
+                'id': self.id,
+                'barcode': self.barcode,
+                'apto': self.apto,
+                'block': self.block,
+                'status': self.status,
+                'date_in': self.date_in,
+                'resident_name': resident_name
             }
 
     def get_byid(self):
