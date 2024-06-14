@@ -4,8 +4,8 @@ import requests
 
 router = APIRouter()
 
-@router.get("/proxy")
-async def proxy(url: str, request: Request):
+@router.get("/proxy", tags=['Porxy'])
+async def proxy(url: str, request: Request,):
     if not url.startswith(('http://', 'https://')):
         raise HTTPException(status_code=400, detail="URL inválida")
 

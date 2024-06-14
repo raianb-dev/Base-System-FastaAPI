@@ -5,10 +5,18 @@ from routers.routeOrders import router as routeOrdersRouter
 from routers.routeResident import router as routeResidentRouter
 from routers.routeProxy import router as routeProxyRouter
 
+description = """"
+Documentação Swagger
+
+### Para testes:
+ * **Username:** adm
+ * **Password:** adm
+
+"""
 app = FastAPI(
     title='Dominio',
     version='0.1',
-    description='Documentação Swagger',
+    description=description,
     debug=True,
     docs_url='/'
 )
